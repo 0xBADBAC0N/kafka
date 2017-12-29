@@ -28,7 +28,7 @@ import java.util.Objects;
  */
 @InterfaceStability.Evolving
 public class AccessControlEntry {
-    final AccessControlEntryData data;
+    private final AccessControlEntryData data;
 
     /**
      * Create an instance of an access control entry with the provided parameters.
@@ -42,11 +42,15 @@ public class AccessControlEntry {
         Objects.requireNonNull(principal);
         Objects.requireNonNull(host);
         Objects.requireNonNull(operation);
-        if (operation == AclOperation.ANY)
+        if (operation == AclOperation.ANY) {
             throw new IllegalArgumentException("operation must not be ANY");
+        }
+
         Objects.requireNonNull(permissionType);
-        if (permissionType == AclPermissionType.ANY)
+        if (permissionType == AclPermissionType.ANY) {
             throw new IllegalArgumentException("permissionType must not be ANY");
+        }
+
         this.data = new AccessControlEntryData(principal, host, operation, permissionType);
     }
 
@@ -99,8 +103,10 @@ public class AccessControlEntry {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof AccessControlEntry))
+        if (!(o instanceof AccessControlEntry)) {
             return false;
+        }
+
         AccessControlEntry other = (AccessControlEntry) o;
         return data.equals(other.data);
     }
